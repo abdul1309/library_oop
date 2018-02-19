@@ -1,0 +1,55 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: url("http://dailygenius.com/wp-content/uploads/2014/06/stack_of_books.jpg");
+    background-position: center;
+    background-size: cover;
+}
+h1 {
+    margin: 0;
+    padding: 0 0 20px;
+    text-align: center;
+
+}
+
+
+a {
+    color: #e38d13;
+    text-decoration: none;
+
+}
+
+.login_box {
+    width:300px ;
+    height:340px ;
+    color: #e38d13;
+    background: #ffffff;
+    top: 20% ;
+    left:35% ;
+    position:absolute ;
+    box-sizing: border-box;
+    padding: 20px 50px;
+}
+.image {
+    width:40% ;
+    height: 200px;
+    border-radius: 50%;
+    position: absolute;
+    top: -50%;
+    left: calc(46% - 50px);
+}
+
+.login_box input[type = text], input[type = password] {
+    border: none;
+    border-bottom: 1px solid #ff2a004f;
+    background: transparent;
+    outline: none;
+    height: 30px;
+    color: #000;
+    font-size: 16px;
+}
+
+.button_login,.button_logout {
+    top: 20% ;
+    left:35% ;
+}
