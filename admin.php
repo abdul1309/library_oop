@@ -1,19 +1,21 @@
 <?php
-require_once ('bootstrap.php');
+
+
+require_once'bootstrap.php';
 if (isset($_POST['logout'])) {
-  $session->destroy();
-  header("location:index.php");
+    $session->destroy();
+    header("location:index.php");
 }
 // check if the session login exists.
 if ($session->exists('loggedin')) {
-  print "<h1 style='text-align: center'>Herzlich willkommen	</h1>";
-   print'<div style="text-align: right">';
-  $param = array(
+    print "<h1 style='text-align: center'>Herzlich willkommen	</h1>";
+     print'<div style="text-align: right">';
+    $param = array(
     'user' => $session->get('user'),
-  );
-  print '</div>';
-}else {
-  echo 'No Session found';
+     );
+    print '</div>';
+} else {
+    echo 'No Session found';
 }
 ?>
 
