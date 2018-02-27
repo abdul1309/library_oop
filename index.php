@@ -1,16 +1,16 @@
 <?php
+require_once 'header.php';
+require_once 'classes/get_HTML.php';
+$get = new Get_HTML();
 
 ?>
 <html>
-    <title>
-        Library
-    </title>
+    <head>
+        <title>
+            Library
+        </title>
+    </head>
     <body>
-        <form action="login.php" method="post">
-            <div class="button_login">
-                <input type="submit" name="login" value="login">
-            </div>
-        </form>
     </body>
 </html>
 

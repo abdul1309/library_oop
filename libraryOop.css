@@ -11,6 +11,9 @@ h1 {
     text-align: center;
 
 }
+h6 {
+    text-align: right;
+}
 
 
 a {
@@ -20,16 +23,42 @@ a {
 }
 
 .login_box {
-    width:300px ;
-    height:340px ;
+    width:350px ;
+    height:330px ;
+    color: #e38d13;
+    background: #ffffff;
+    top: 40% ;
+    left:33% ;
+    position:absolute ;
+    box-sizing: border-box;
+    padding: 30px 50px;
+}
+
+input[type=text],input[type = date], input[type = email],input[type = password ]  {
+    border: none;
+    border-bottom: 1px solid #ff2a004f;
+    background: transparent;
+    outline: none;
+    height: 16px;
+    width: 250px;
+    color: #000;
+    font-size: 16px;
+
+}
+.register_box {
+    width:350px ;
+    height:690px ;
     color: #e38d13;
     background: #ffffff;
     top: 20% ;
-    left:35% ;
+    left:32% ;
     position:absolute ;
     box-sizing: border-box;
-    padding: 20px 50px;
+    padding: 30px 50px;
 }
+
+
+
 .image {
     width:40% ;
     height: 200px;
@@ -39,17 +68,45 @@ a {
     left: calc(46% - 50px);
 }
 
-.login_box input[type = text], input[type = password] {
-    border: none;
-    border-bottom: 1px solid #ff2a004f;
-    background: transparent;
-    outline: none;
-    height: 30px;
-    color: #000;
-    font-size: 16px;
+.button_login,.button_logout {
+    top: 40% ;
+    left:35% ;
+    float: right;
+
+}
+.table tr {
+    border-collapse: collapse;
+    border: 1px solid orange;
+    background: #ffff ;
+    margin-top:30px ;
+    margin-left:0px;
 }
 
-.button_login,.button_logout {
-    top: 20% ;
-    left:35% ;
+
+.topnav {
+    background-color: orange;
+    overflow: hidden;
 }
+
+/* Style the links inside the navigation bar */
+.topnav a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+    background-color: #ddd;
+    color: orange;
+}
+
+/* Add a color to the active/current link */
+.topnav a.active {
+    background-color: #4CAF50;
+    color: white;
+}
+

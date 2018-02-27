@@ -1,5 +1,4 @@
 <?php
-
 require_once'Classes/session.php';
 /**
  * Make object from the class session
