@@ -1,7 +1,8 @@
 <?php
 require_once'bootstrap.php';
-require_once'classes/user.php';
-require_once'classes/database.php';
+require_once 'classes/user/user.php';
+require_once'classes/database/database.php';
+require_once 'Classes/session/Session.php';
 // if the username and the password in the form not empty.
 if (!empty($_POST['username'])&& !empty($_POST['password'])) {
     // make object from class database
@@ -11,7 +12,7 @@ if (!empty($_POST['username'])&& !empty($_POST['password'])) {
     // get user with the Method login_user from class user.
     $row = $user->loginUser($_POST['username'], md5($_POST['password']));
     // if the id user from the database not null.
-    if (isset($row['id']) && $row['id_role'] == 2 || $row['id_role'] == 3 ) {
+    if (isset($row['id']) && $row['id_role'] == 1 || $row['id_role'] == 2 ) {
         /*
          * set the session
          * the set method hat two parameter
@@ -20,13 +21,14 @@ if (!empty($_POST['username'])&& !empty($_POST['password'])) {
         $session->set('loggedin', true);
         $session->set('id', $row['id']);
         $session->set('user', $row['username']);
-        if ($row['id_role'] == 2) {
+        $session->set('role', $row['id_role']);
+        if ($row['id_role'] == 1) {
             header("location:admin.php");
-        } elseif ($row['id_role'] == 3) {
+        } elseif ($row['id_role'] == 2) {
             header("location:user_page.php");
         }
     } else {
-        print 'Ihr Konto wird noch nicht existiert oder Sie haben noch kein Konto oder ihr Passwort ist falsch!';
+        print 'Ihr Konto wird noch nicht existiert oder Sie haben noch kein Konto oder ihr Passwort ist falsch';
 
     }
 } else {
@@ -48,14 +50,13 @@ require_once 'header.php';
                 <img src="login.png" class="image"/>
                 <h1>Login here</h1>
                 <?php
-                require_once 'classes/get_HTML.php';
-                $get_element = new Get_HTML();
-                print '<p>'.$get_element->label('Benutzername', 'username', ':').'</p>';
-                print $get_element->element('Geben Sie Ihren Benutzername ein', 'username', 'text', true);
-                print '<p>'.$get_element->label('passwort', 'password', ':').'</p>';
-                print $get_element->element('Geben Sie Ihren Passwort ein', 'password', 'password', true);
-                print '<p>'.$get_element->element('send', 'login_form', 'submit', true).'</p>';
-                print $get_element->element('Haben Sie noch kein Konto?', 'register.php', 'link', true);
+                $username = new InputFormElement('Benutzername', 'username', 'text', true);
+                print $username->render();
+                $password = new InputFormElement('Passwort', 'password', 'password', true);
+                print $password->render();
+                $send_login = new InputFormElement('send', 'send_login', 'submit', true);
+                print '<p>'. $send_login->render().'</p>';
+                print '<a href="register.php" >Haben Sie noch kein Konto?'.'</a>';
                 ?>
             </div>
         </form>

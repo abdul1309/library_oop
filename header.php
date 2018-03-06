@@ -1,8 +1,6 @@
 <?php
 require_once'bootstrap.php';
-require_once 'classes/get_HTML.php';
-require_once'Classes/session.php';
-$get_element = new Get_HTML();
+require_once 'Classes/session/Session.php';
 if (isset($_POST['logout'])) {
     $session->destroy();
     header("location:index.php");
@@ -25,15 +23,17 @@ if (isset($_POST['logout'])) {
             <div style="float: right">
                 <?php
                 if (!$session->exists('loggedin')) {
-                    print $get_element->element('login', 'login', 'button', true);
+                    $login = new InputFormElement('Anmelden', 'login', 'submit', true);
+                    print $login->render();
                     print '</form>';
                 } else {
                     print '<div style="float: right">';
                     if ($session->exists('loggedin')) {
                         $param = array(
-                            'user' => $session->get('user'),
+                            'user' => $session->get('user')
                         );
-                        print '<input type="submit" class="button_logout" name="logout" value="logout">';
+                        $logout = new InputFormElement('Abmelden', 'logout', 'submit', true);
+                        print $logout->render();
                     }
                     print '</form>';
                 }
