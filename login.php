@@ -50,11 +50,8 @@ require_once 'header.php';
                 <img src="login.png" class="image"/>
                 <h1>Login here</h1>
                 <?php
-                $username = new InputFormElement('Benutzername', 'username', 'text', true);
                 print $username->render();
-                $password = new InputFormElement('Passwort', 'password', 'password', true);
                 print $password->render();
-                $send_login = new InputFormElement('send', 'send_login', 'submit', true);
                 print '<p>'. $send_login->render().'</p>';
                 print '<a href="register.php" >Haben Sie noch kein Konto?'.'</a>';
                 ?>

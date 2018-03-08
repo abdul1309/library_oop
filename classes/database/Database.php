@@ -8,6 +8,7 @@
  * getConnection: return the database connection.
  */
 
+
 class Database
 {
     private $_connection;

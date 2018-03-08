@@ -5,7 +5,6 @@ if (isset($_POST['logout'])) {
     $session->destroy();
     header("location:index.php");
 }
-
 ?>
 <html>
     <head>
@@ -23,7 +22,6 @@ if (isset($_POST['logout'])) {
             <div style="float: right">
                 <?php
                 if (!$session->exists('loggedin')) {
-                    $login = new InputFormElement('Anmelden', 'login', 'submit', true);
                     print $login->render();
                     print '</form>';
                 } else {
@@ -32,7 +30,6 @@ if (isset($_POST['logout'])) {
                         $param = array(
                             'user' => $session->get('user')
                         );
-                        $logout = new InputFormElement('Abmelden', 'logout', 'submit', true);
                         print $logout->render();
                     }
                     print '</form>';

@@ -12,12 +12,19 @@ if (isset($_POST['send_form_register']) && !empty($_POST['username']) && !empty(
     $db = new Database();
     // make object from class user and give the $db as parameter
     $user = new User($db);
-    $set = $user->set($_POST['username'], md5($_POST['password']),  $_POST['email'], $_POST['firstname'], $_POST['lastname'], $_POST['address'], $_POST['date_of_birth']);
-    $user->registerUser();
+    $username = $_POST['username'];
+    $email = $_POST['username'];
+    $sql = "SELECT * FROM user WHERE username='$username' or email = '$email'";
+    $rows = $user->show($sql);
+    if (!empty($rows)) {
+        print "Benutzername oder email wurde schon verwendet";
+    } else {
+        $set = $user->set($_POST['username'], md5($_POST['password']), $_POST['email'], $_POST['firstname'], $_POST['lastname'], $_POST['address'], $_POST['date_of_birth'], 3);
+        $user->registerUser();
+    }
 } elseif (isset($_POST['send_form_register'])) {
     print "Benutzername und Email sollen nicht leer sein!";
 }
-
 ?>
 <html lang="en">
     <head>
@@ -32,21 +39,14 @@ if (isset($_POST['send_form_register']) && !empty($_POST['username']) && !empty(
             <?php
             $username = new InputFormElement('Benutzername', 'username', 'text', true);
             print '<p>'.$username->render();
-            $password = new InputFormElement('Passwort', 'password', 'password', true);
             print '<p>'.$password->render();
-            $password_confirm = new InputFormElement('Passwort beschtätigen', 'password_confirm', 'password', true);
             print '<p>'.$password_confirm->render();
-            $firstname = new InputFormElement('Vorname', 'firstname', 'text', true);
             print $firstname->render();
-            $lastname = new InputFormElement('Nachname', 'lastname', 'text', true);
             print $lastname->render();
             $email = new InputFormElement('Email', 'email', 'email', true);
             print $email->render();
-            $address = new InputFormElement('Adresse', 'address', 'text', true);
             print $address->render();
-            $date_of_birth = new InputFormElement('Geburtsdatum', 'date_of_birth', 'date', true);
             print $date_of_birth->render();
-            $send_register = new InputFormElement('send', 'send_form_register', 'submit', true);
             print '<p>'. $send_register->render().'</p>';
             print '<a href="login.php" >zurück'.'</a>';
             ?>

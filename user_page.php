@@ -14,11 +14,39 @@ $user = new User($db);
     <body>
         <form action="user_page.php" method="post">
             <?php
-            $edit_profil = new InputFormElement('ändern mein Profile', 'edit_profil', 'submit', true);
             print '<p>'.$edit_profil->render();
-
-            if (isset($_POST['edit_profil']) || isset($_POST['send_edit_profile']) ) {
-                $user->updateUser();
+            if (isset($_POST['edit_profil'])) {
+                $id = $_SESSION['id'];
+                $mysql = "SELECT * FROM user WHERE id = $id ";
+                print '<div class="register_box">';
+                $rows = $user->show($mysql);
+                foreach ((array) $rows as $item) {
+                    foreach ($item as $row => $value) {
+                        $username->setValue($item['username']);
+                        print $username->render();
+                        print $password->render();
+                        $email->setValue($item['email']);
+                        print $email->render();
+                        $firstname->setValue($item['firstname']);
+                        print $firstname->render();
+                        $lastname->setValue($item['lastname']);
+                        print $lastname->render();
+                        $address->setValue($item['address']);
+                        print $address->render();
+                        $date_of_birth->setValue($item['date_of_birth']);
+                        print $date_of_birth->render();
+                        $select->setValue($item['id_role']);
+                        echo '<br>';
+                        print $send->render();
+                        print $cancel->render();
+                        echo '</div>';
+                        break;
+                    }
+                }
+            }
+            if (isset($_POST['send'])) {
+                $set= $user->set($_POST['username'], ($_POST['password']),  $_POST['email'], $_POST['firstname'], $_POST['lastname'], $_POST['address'], $_POST['date_of_birth'], 2);
+                $user->updateUser($_SESSION['id']);
             }
             ?>
         </form>
