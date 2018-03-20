@@ -19,19 +19,20 @@ class SelectFormElement extends FormElement
     public function render()
     {
         $options = null;
-
         $get_element_select = '<select name="' . $this->name . '" >';
-        foreach ($this->value as $value => $row) {
-            if (!empty($_POST[$this->name])) {
-                $select = ' selected="selected"';
+        $option[]= '<option value= 0>'.'choose value' . '</option>';
+        foreach ($this->value as $this->value) {
+            foreach ($this->value as $value => $row) {
+                if (!empty($_POST[$this->name])) {
+                    $select = ' selected="selected"';
 
-            } else {
-                $select = '';
+                } else {
+                    $select = '';
+                }
+                $option[] = '<option value="' . $value . '"' . $select . '>' . $row . '</option>';
+                $options = implode(PHP_EOL, $option);
             }
-            $option[] = '<option value="'.$value.'"' . $select . '>'.$row.'</option>';
-            $options = implode(PHP_EOL, $option);
         }
-
 
         return $this->renderLabel(). $get_element_select . $options . '</select>';
     }
