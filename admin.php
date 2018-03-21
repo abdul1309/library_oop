@@ -24,10 +24,9 @@ $book = new Book($db);
             print '<p>'.$add_book->render();
             print '<p>'.$show_book->render().'</p>';
             if (isset($_POST['show_user'])) {
-                $mysql = "SELECT * FROM user ";
                 print '<table class="table">';
-                print "<tr><td>Id user</td><td>Benutzername</td><td>Passwort</td><td>email</td><td>Vorname</td><td>Nachname</td><td>Adresse</td><td>Geburtsdatum</td><td>ID Rolle</td>";
-                $rows = $user->show($mysql);
+                print "<tr><td>Id</td><td>Benutzername</td><td>Passwort</td><td>email</td><td>Vorname</td><td>Nachname</td><td>Adresse</td><td>Geburtsdatum</td><td>ID Rolle</td>";
+                $rows = $user->show('user', null, null);
                 foreach ((array) $rows as $item) {
                     echo "<tr>";
                     foreach ($item as $row => $value) {
@@ -44,14 +43,12 @@ $book = new Book($db);
                 } else {
                     $id = $_SESSION['id'];
                 }
-                $mysql = "SELECT * FROM user WHERE id = $id";
                 print '<div class="register_box">';
-                $rows = $user->show($mysql);
+                $rows = $user->show('user', 'id', $id);
                 foreach ((array) $rows as $item) {
                     foreach ($item as $row => $value) {
                         $id_role = $item['id_role'];
-                        $sql_name_role = "SELECT name_role FROM user_roles WHERE id_role = '$id_role' ";
-                        $role_name = $user->show($sql_name_role);
+                        $role_name = $user->show('user_roles', 'id_role', $id_role);
                         foreach ((array)$role_name as $items) {
                             foreach ($items as $row_role => $value) {
                                 $username->setValue($item['username']);
@@ -73,12 +70,9 @@ $book = new Book($db);
                                     2 => 'user',
                                     3 => 'new'
                                 );
-
-                                $sql_role = "SELECT * FROM user_roles ";
-                                $result = $user->show($sql_role);
+                                $user_roles = $user->show('user_roles', null, null);
                                 $arrays = null;
-                                foreach ($result as $items) {
-
+                                foreach ($user_roles as $items) {
                                     $arrays[] = [$items['id_role'] => $items['name_role']];
                                 }
                                 $select->setValue($arrays);
@@ -88,7 +82,10 @@ $book = new Book($db);
                                 print $send->render();
                                 print $cancel->render();
                                 echo '</div>';
+                                break;
+
                             }
+                            break;
                         }
                         break;
                     }
@@ -99,11 +96,10 @@ $book = new Book($db);
                 $user->updateUser($_POST['send']);
             }
             if (isset($_POST['add_book'])) {
-                print '<div class="register_box">';
+                print '<div class="book_box">';
                 print $title->render();
                 print $author->render();
-                $sql_category = "SELECT * FROM category ";
-                $result = $user->show($sql_category);
+                $result = $book->show('category', null, null);
                 $arrays = null;
                 foreach ($result as $item) {
 
@@ -118,71 +114,77 @@ $book = new Book($db);
                 echo '</pre>';
             }
             if (isset($_POST['book_into_database'])) {
-                $book->setValue_title($_POST['title']);
-                $book->setValue_author($_POST['author']);
-                $book->setValue_category($_POST['category']);
-                $title = $book->get_title();
-                $author = $book->get_author();
-                $category = $book->get_category();
-                $sql = "INSERT INTO book (title, author, category_id)
-              VALUES ('$title', '$author', '$category')";
-                $book->add($sql);
+                $book->set_title($_POST['title']);
+                $book->set_author($_POST['author']);
+                $book->set_category($_POST['category']);
+                $book->add_book();
             }
             if (isset($_POST['show_book'])) {
-                $mysql = "SELECT * FROM book ";
                 print '<table class="table">';
-                print "<tr><td>Id Buch</td><td>Title</td><td>Autor</td><td>Kategorie</td>";
-                $rows = $user->show($mysql);
+                print "<tr><td>Title</td><td>Autor</td><td>Kategorie</td>";
+                $rows = $book->show('book', null, null);
                 foreach ((array)$rows as $item) {
                     echo "<tr>";
                     foreach ($item as $row => $value) {
-                        echo "<td>" . $value . "</td>";
-                        $edit_book->setValue($item['iban']);
+                        $category_id = $item ['category_id'];
+                        $edit_book->setValue($item ['iban']);
+                        $rows = $book->show('category', 'id', $category_id);
+                        foreach ($rows as $items) {
+                            foreach ($items as $row => $values) {
+                                echo "<td>" . $item['title'] . "</td>";
+                                echo "<td>" . $item['author'] . "</td>";
+                                echo "<td>" . $items['name'] . "</td>";
+                                print "<td>" . $edit_book->render() . "<td>";
+                                break;
+                            }
+                        }
+                        break;
                     }
-                    print "<td>" . $edit_book->render() . "<td>";
                 }
                 echo '</table>';
             }
             if (isset($_POST['edit_book'])) {
                 $id = $_POST['edit_book'];
-                $mysql = "SELECT * FROM book WHERE iban = $id";
-                print '<div class="register_box">';
-                $rows = $book->show($mysql);
+                $id_category = null;
+                $iban = null;
+                $rows = $book->show('book', 'iban', $id);
+                print '<div class="book_box">';
                 foreach ((array) $rows as $item) {
                     foreach ($item as $row => $value) {
+                        $book->set_title($item['title']);
+                        $book->set_author($item['author']);
+                        $book->set_category($item['author']);
+                        $title_value = $book->get_title();
+                        $author_value = $book->get_author();
+                        $id_category = $book->get_category();
+                        $title->setValue($title_value);
+                        $author->setValue($author_value);
                         $id_category = $item['category_id'];
                         $iban = $item['iban'];
-                        $sql_name_categorie = "SELECT name FROM category WHERE id = '$id_category' ";
-                        $category_name = $user->show($sql_name_categorie);
-                        foreach ((array)$category_name as $items) {
-                            foreach ($items as $row_category => $value) {
-                                $book->set_title($item['title']);
-                                $book->set_author($item['author']);
-                                $title_value = $book->get_title();
-                                $author_value = $book->get_author();
-                                $title->setValue($title_value);
-                                print $title->render();
-                                $author->setValue($author_value);
-                                print $author->render();
-                                $sql_category = "SELECT * FROM category ";
-                                $result = $book->show($sql_category);
-                                $arrays = null;
-                                foreach ($result as $item) {
-                                    if ($id_category != $item['id']) {
-                                        $arrays[] = [$item['id'] => $item['name']];
-                                    }
+                    }
+                    print $title->render();
+                    print $author->render();
+                    $category_name = $book->show('category', 'id', $id_category);
+                    foreach ((array)$category_name as $items) {
+                        foreach ($items as $row_category => $value) {
+
+                            $sql_category = $book->show('category', null, null);
+                            $arrays = null;
+                            foreach ($sql_category as $item) {
+                                if ($id_category != $item['id']) {
+                                    $arrays[] = [$item['id'] => $item['name']];
                                 }
-                                $arrays[] = [ $id_category => $items['name']];
-                                $select_category->setValue($arrays);
-                                print $select_category->render();
-                                echo '<p>';
-                                $send_form_book_edit->setValue($iban);
-                                print $send_form_book_edit->render();
-                                print $cancel->render();
-                                echo '</div>';
                             }
+                            $arrays[] = [$id_category => $items['name']];
+                            $select_category->setValue($arrays);
+                            print $select_category->render();
+                            echo '<p>';
+                            $send_form_book_edit->setValue($iban);
+                            print $send_form_book_edit->render();
+                            print $cancel->render();
+                            break;
+                            echo '</div>';
                         }
-                        break;
                     }
                 }
             }

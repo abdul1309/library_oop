@@ -85,9 +85,10 @@ class Book
      *
      * @return array|null
     */
-    public function add($sql)
+    public function add_book()
     {
-
+        $sql = "INSERT INTO book (title, author, category_id)
+              VALUES ('$this->_title', '$this->_author', '$this->_category')";
         $result = mysqli_query($this->_connection, $sql);
         if (!$result) {
             print "Error: " . $result . "<br>" . mysqli_error($this->_connection);
@@ -104,8 +105,14 @@ class Book
      *
      * @return array|null
      */
-    public function show($sql)
+    public function show($name_table, $name, $value)
     {
+        if (!empty($name) && !empty($value)) {
+            $sql = "SELECT * FROM $name_table  WHERE $name = $value";
+
+        } else {
+            $sql = "SELECT * FROM .$name_table";
+        }
         $rows = null;
         $result_sql = mysqli_query($this->_connection, $sql);
         if (!$result_sql) {

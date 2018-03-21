@@ -96,14 +96,22 @@ class User
     }
 
     /**
-     * Show user
+     * Show from the database.
      *
-     * @param string $sql the commend.
+     * @param string $name_table the name of the table
+     * @param string $name       the name of the column.
+     * @param mixed  $value      the value of the column.
      *
-     * @return user's information.
+     * @return array|null
      */
-    public function show($sql)
+    public function show($name_table, $name, $value)
     {
+        if (!empty($name) && !empty($value)) {
+            $sql = "SELECT * FROM $name_table  WHERE $name = $value";
+
+        } else {
+            $sql = "SELECT * FROM .$name_table";
+        }
         $rows = null;
         $result_sql = mysqli_query($this->_connection, $sql);
         if (!$result_sql) {

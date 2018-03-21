@@ -1,11 +1,13 @@
 <?php
 require_once'bootstrap.php';
 require_once 'classes/user/User.php';
+require_once 'classes/book/Book.php';
 require_once 'classes/database/Database.php';
 require_once 'header.php';
 $db = new Database();
 // make object from class user and give the $db as parameter
 $user = new User($db);
+$book = new Book($db);
 ?>
 <html>
     <head>
@@ -15,11 +17,11 @@ $user = new User($db);
         <form action="user_page.php" method="post">
             <?php
             print '<p>'.$edit_profil->render();
+            print '<p>'.$show_book->render().'</p>';
             if (isset($_POST['edit_profil'])) {
                 $id = $_SESSION['id'];
-                $mysql = "SELECT * FROM user WHERE id = $id ";
+                $rows = $user->show('user', 'id', $id);
                 print '<div class="register_box">';
-                $rows = $user->show($mysql);
                 foreach ((array) $rows as $item) {
                     foreach ($item as $row => $value) {
                         $username->setValue($item['username']);
@@ -47,6 +49,30 @@ $user = new User($db);
             if (isset($_POST['send'])) {
                 $set= $user->set($_POST['username'], ($_POST['password']),  $_POST['email'], $_POST['firstname'], $_POST['lastname'], $_POST['address'], $_POST['date_of_birth'], 2);
                 $user->updateUser($_SESSION['id']);
+            }
+            if (isset($_POST['show_book'])) {
+                print '<table class="table">';
+                print "<tr><td>Title</td><td>Autor</td><td>Kategorie</td>";
+                $rows = $book->show('book', null, null);
+                foreach ((array)$rows as $item) {
+                    echo "<tr>";
+                    foreach ($item as $row => $value) {
+                        $category_id = $item ['category_id'];
+                        $lend->setValue($item ['iban']);
+                        $rows = $book->show('category', 'id', $category_id);
+                        foreach ($rows as $items) {
+                            foreach ($items as $row => $values) {
+                                echo "<td>" . $item['title'] . "</td>";
+                                echo "<td>" . $item['author'] . "</td>";
+                                echo "<td>" . $items['name'] . "</td>";
+                                print "<td>" . $lend->render() . "<td>";
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
+                echo '</table>';
             }
             ?>
         </form>
