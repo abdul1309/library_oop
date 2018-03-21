@@ -6,7 +6,6 @@
  * Date: 19.03.18
  * Time: 15:23
  */
-
 class Book
 {
     private $_title;
@@ -102,7 +101,6 @@ class Book
             print "Error: " . $result . "<br>" . mysqli_error($this->_connection);
         } else {
             print "erfolg";
-
         }
     }
     /**

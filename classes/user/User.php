@@ -78,7 +78,6 @@ class User
     public function getEmail()
     {
         return $this->_email;
-
     }
     /**
      * Set the values from the Form to the firstname.
@@ -99,7 +98,6 @@ class User
     public function getFirstname()
     {
         return $this->_firstname;
-
     }
     /**
      * Set the values from the Form to the lastname.
@@ -140,7 +138,6 @@ class User
     public function getAddress()
     {
         return $this->_address;
-
     }
     /**
      * Set the values from the Form to the date of birth.
@@ -160,7 +157,6 @@ class User
      */
     public function getDateOfBirth()
     {
-
         return $this->_date_of_birth;
     }
     /**
@@ -203,7 +199,6 @@ class User
     {
         return $this->role_login ;
     }
-
     /**
      * User constructor.
      *
@@ -215,7 +210,6 @@ class User
     {
         return $this->_connection = $db->getConnection();
     }
-
     /**
      * Get user from the database.
      *
@@ -253,7 +247,6 @@ class User
 
         }
     }
-
     /**
      * Show from the database.
      *
@@ -266,7 +259,7 @@ class User
     public function show($name_table, $name, $value)
     {
         if (!empty($name) && !empty($value)) {
-            $sql = "SELECT * FROM $name_table  WHERE $name = $value";
+            $sql = "SELECT * FROM $name_table  WHERE  $name= '$value'";
 
         } else {
             $sql = "SELECT * FROM .$name_table";

@@ -14,9 +14,8 @@ if (isset($_POST['send_form_register']) && !empty($_POST['username']) && !empty(
     $user = new User($db);
     $username = $_POST['username'];
     $email = $_POST['email'];
-    $rows_user = $user->show('user', 'username', '$username');
+    $rows_user = $user->show('user', 'username', $username);
     $row_email = $user->show('user', 'email', $email);
-
     if (!empty($rows_user || !empty($row_email))) {
         print "Benutzername oder email wurde schon verwendet";
     } else {
