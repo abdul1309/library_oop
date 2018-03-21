@@ -64,16 +64,15 @@ $book = new Book($db);
                                 print $address->render();
                                 $date_of_birth->setValue($item['date_of_birth']);
                                 print $date_of_birth->render();
-                                $array = array(
-                                    $id_role => $items['name_role'],
-                                    1 => 'admin',
-                                    2 => 'user',
-                                    3 => 'new'
-                                );
-                                $user_roles = $user->show('user_roles', null, null);
-                                $arrays = null;
-                                foreach ($user_roles as $items) {
-                                    $arrays[] = [$items['id_role'] => $items['name_role']];
+                                $sql_role = $user->show('user_roles', null, null);
+                                $arrays[] = [$id_role => $items['name_role']];
+                                foreach ($sql_role as $itemss) {
+                                    foreach ($itemss as $row => $value) {
+                                        if ($id_role != $itemss['id_role']) {
+                                            $arrays[] = [$itemss['id_role'] => $itemss['name_role']];
+                                        }
+                                        break;
+                                    }
                                 }
                                 $select->setValue($arrays);
                                 print $select->render();
@@ -83,7 +82,6 @@ $book = new Book($db);
                                 print $cancel->render();
                                 echo '</div>';
                                 break;
-
                             }
                             break;
                         }
@@ -92,7 +90,14 @@ $book = new Book($db);
                 }
             }
             if (isset($_POST['send'])) {
-                $set= $user->set($_POST['username'], ($_POST['password']), $_POST['email'], $_POST['firstname'], $_POST['lastname'], $_POST['address'], $_POST['date_of_birth'], $_POST['roles']);
+                $user->setUsername($_POST['username']);
+                $user->setPassword($_POST['password']);
+                $user->setEmail($_POST['email']);
+                $user->setFirstname($_POST['firstname']);
+                $user->setLastname($_POST['lastname']);
+                $user->setAddress($_POST['address']);
+                $user->setDateOfBirth($_POST['date_of_birth']);
+                $user->setIdRole($_POST['roles']);
                 $user->updateUser($_POST['send']);
             }
             if (isset($_POST['add_book'])) {
@@ -100,9 +105,8 @@ $book = new Book($db);
                 print $title->render();
                 print $author->render();
                 $result = $book->show('category', null, null);
-                $arrays = null;
+                $arrays[] = [0 => 'Wählen Sie bitte den Wert aus'];
                 foreach ($result as $item) {
-
                     $arrays[] = [$item['id'] => $item['name']];
                 }
                 $select_category->setValue($arrays);
@@ -114,10 +118,10 @@ $book = new Book($db);
                 echo '</pre>';
             }
             if (isset($_POST['book_into_database'])) {
-                $book->set_title($_POST['title']);
-                $book->set_author($_POST['author']);
-                $book->set_category($_POST['category']);
-                $book->add_book();
+                $book->setTitle($_POST['title']);
+                $book->setAuthor($_POST['author']);
+                $book->setCategory($_POST['category']);
+                $book->addBook();
             }
             if (isset($_POST['show_book'])) {
                 print '<table class="table">';
@@ -149,14 +153,14 @@ $book = new Book($db);
                 $iban = null;
                 $rows = $book->show('book', 'iban', $id);
                 print '<div class="book_box">';
-                foreach ((array) $rows as $item) {
+                foreach ((array)$rows as $item) {
                     foreach ($item as $row => $value) {
-                        $book->set_title($item['title']);
-                        $book->set_author($item['author']);
-                        $book->set_category($item['author']);
-                        $title_value = $book->get_title();
-                        $author_value = $book->get_author();
-                        $id_category = $book->get_category();
+                        $book->setTitle($item['title']);
+                        $book->setAuthor($item['author']);
+                        $book->setCategory($item['author']);
+                        $title_value = $book->getTitle();
+                        $author_value = $book->getAuthor();
+                        $id_category = $book->getCategory();
                         $title->setValue($title_value);
                         $author->setValue($author_value);
                         $id_category = $item['category_id'];
@@ -167,15 +171,13 @@ $book = new Book($db);
                     $category_name = $book->show('category', 'id', $id_category);
                     foreach ((array)$category_name as $items) {
                         foreach ($items as $row_category => $value) {
-
+                            $arrays[] = [$id_category => $items['name']];
                             $sql_category = $book->show('category', null, null);
-                            $arrays = null;
-                            foreach ($sql_category as $item) {
-                                if ($id_category != $item['id']) {
-                                    $arrays[] = [$item['id'] => $item['name']];
+                            foreach ($sql_category as $items) {
+                                if ($id_category != $items['id']) {
+                                    $arrays[] = [$items['id'] => $items['name']];
                                 }
                             }
-                            $arrays[] = [$id_category => $items['name']];
                             $select_category->setValue($arrays);
                             print $select_category->render();
                             echo '<p>';
@@ -189,12 +191,11 @@ $book = new Book($db);
                 }
             }
             if (isset($_POST['send_edit_book'])) {
-                $book->set_title($_POST['title']);
-                $book->set_author($_POST['author']);
-                $book->set_category($_POST['category']);
+                $book->setTitle($_POST['title']);
+                $book->setAuthor($_POST['author']);
+                $book->setCategory($_POST['category']);
                 $book->updateBook($_POST['send_edit_book']);
-            }
-            print '</div>';
+            }print '</div>';
             ?>
         </form>
     </body>

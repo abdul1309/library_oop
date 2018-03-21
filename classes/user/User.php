@@ -20,6 +20,191 @@ class User
     public $role_login;
 
     /**
+     * Set the values from the Form to the username.
+     *
+     * @param string $value the value of title.
+     *
+     * @return set the value.
+     */
+    public function setUsername($value)
+    {
+        $this->_username = $value;
+    }
+    /**
+     * Get the username´s value.
+     *
+     * @return the title´s value.
+     */
+    public function getUsername()
+    {
+        return $this->_username ;
+    }
+    /**
+     * Set the values from the Form to the password.
+     *
+     * @param string $value the value of password.
+     *
+     * @return set the value.
+     */
+    public function setPassword($value)
+    {
+        $this->_password = $value;
+    }
+    /**
+     * Get the password´s value.
+     *
+     * @return the password´s value.
+     */
+    public function getPassword()
+    {
+        return $this->_password ;
+    }
+    /**
+     * Set the values from the Form to the email.
+     *
+     * @param string $value the value of email.
+     *
+     * @return set the value.
+     */
+    public function setEmail($value)
+    {
+        $this->_email = $value;
+    }
+    /**
+     * Get the email´s value.
+     *
+     * @return the email´s value.
+     */
+    public function getEmail()
+    {
+        return $this->_email;
+
+    }
+    /**
+     * Set the values from the Form to the firstname.
+     *
+     * @param string $value the value of firstname.
+     *
+     * @return set the value.
+     */
+    public function setFirstname($value)
+    {
+        $this->_firstname = $value;
+    }
+    /**
+     * Get the firstname´s value.
+     *
+     * @return the firstname´s value.
+     */
+    public function getFirstname()
+    {
+        return $this->_firstname;
+
+    }
+    /**
+     * Set the values from the Form to the lastname.
+     *
+     * @param string $value the value of lastname.
+     *
+     * @return set the value.
+     */
+    public function setLastname($value)
+    {
+        $this->_lastname = $value;
+    }
+    /**
+     * Get the lastname´s value.
+     *
+     * @return the lastname´s value.
+     */
+    public function getLastname()
+    {
+        return $this->_lastname;
+    }
+    /**
+     * Set the values from the Form to the address.
+     *
+     * @param string $value the value of address.
+     *
+     * @return set the value.
+     */
+    public function setAddress($value)
+    {
+        $this->_address = $value;
+    }
+    /**
+     * Get the address´s value.
+     *
+     * @return the address´s value.
+     */
+    public function getAddress()
+    {
+        return $this->_address;
+
+    }
+    /**
+     * Set the values from the Form to the date of birth.
+     *
+     * @param string $value the value of date of birth.
+     *
+     * @return set the value.
+     */
+    public function setDateOfBirth($value)
+    {
+        $this->_date_of_birth = $value;
+    }
+    /**
+     * Get the date´s value.
+     *
+     * @return the date´s value.
+     */
+    public function getDateOfBirth()
+    {
+
+        return $this->_date_of_birth;
+    }
+    /**
+     * Set the values from the Form to the id role.
+     *
+     * @param string $value the value of id role.
+     *
+     * @return set the value.
+     */
+    public function setIdRole($value)
+    {
+        $this->_id_role = $value;
+    }
+    /**
+     * Get the id role´s value.
+     *
+     * @return the id´s value.
+     */
+    public function getIdRole()
+    {
+        return  $this->_id_role ;
+    }
+    /**
+     * Set the values from the Form to the role login.
+     *
+     * @param string $value the value of role login.
+     *
+     * @return set the value.
+     */
+    public function setRoleLogin($value)
+    {
+        $this->role_login = $value;
+    }
+    /**
+     * Get the role login´s value.
+     *
+     * @return the role logins´s value.
+     */
+    public function getRoleLogin()
+    {
+        return $this->role_login ;
+    }
+
+    /**
      * User constructor.
      *
      * @param object $db object from the class database.
@@ -50,32 +235,6 @@ class User
                 return $row;
             }
         }
-    }
-
-    /**
-     * Set the values from the Form to the Atributes.
-     *
-     * @param string $username      then user´s name who want register.
-     * @param string $password      the user´s password who want register.
-     * @param string $email         the user´s email who want register.
-     * @param string $firstname     the user´s firstname  who want register.
-     * @param string $lastname      the user´s lastname who want register.
-     * @param string $address       the users address  who want register.
-     * @param string $date_of_birth the birthday of user who want register.
-     * @param nummer $id_role       of user who want register.
-     *
-     * @return set the values
-     */
-    function set($username, $password, $email, $firstname, $lastname, $address, $date_of_birth, $id_role)
-    {
-        $this->_username = $username;
-        $this->_password = $password;
-        $this->_email = $email;
-        $this->_firstname = $firstname;
-        $this->_lastname = $lastname;
-        $this->_address = $address;
-        $this->_date_of_birth = $date_of_birth;
-        $this->_id_role = $id_role;
     }
     /**
      * Register a new user

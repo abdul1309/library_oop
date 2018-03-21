@@ -28,8 +28,10 @@ class Book
      * Set the values from the Form to the title.
      *
      * @param string $value the value of title.
+     *
+     * @return set the value.
      */
-    public function set_title($value)
+    public function setTitle($value)
     {
         $this->_title = $value;
     }
@@ -38,7 +40,7 @@ class Book
      *
      * @return the title´s value.
      */
-    public function get_title()
+    public function getTitle()
     {
         return $this->_title;
     }
@@ -46,17 +48,20 @@ class Book
      * Set the values from the Form to the author.
      *
      * @param string $value the author's value.
+     *
+     * @return set the value.
      */
-    public function set_author($value)
+    public function setAuthor($value)
     {
         $this->_author = $value;
     }
 
     /**
-     * Get the author´s value.
+     * Get the value from the author.
      *
+     * @return get the value.
      */
-    public function get_author()
+    public function getAuthor()
     {
         return $this->_author;
     }
@@ -64,28 +69,31 @@ class Book
     /**
      * Set the values from the Form to the category.
      *
-     * @param $value
+     * @param @param string $value the category.
+     *
+     * @return set the value.
      */
-    public function set_category($value)
+    public function setCategory($value)
     {
         $this->_category = $value;
     }
 
     /**
      * Get the category´s value.
+     *
+     * @return get the value.
      */
-    public function get_category()
+    public function getCategory()
     {
         return $this->_category;
     }
+
     /**
      * Add anew Book.
      *
-     * @param string $sql the commend.
-     *
-     * @return array|null
-    */
-    public function add_book()
+     * @return insert the values to the Database.
+     */
+    public function addBook()
     {
         $sql = "INSERT INTO book (title, author, category_id)
               VALUES ('$this->_title', '$this->_author', '$this->_category')";
@@ -97,11 +105,12 @@ class Book
 
         }
     }
-
     /**
-     * Show from the database
+     * Show from the database.
      *
-     * @param string $sql the commend.
+     * @param string $name_table the name of the table
+     * @param string $name       the name of the column.
+     * @param mixed  $value      the value of the column.
      *
      * @return array|null
      */
@@ -126,13 +135,14 @@ class Book
     }
 
     /**
-     *  Change the users information.
+     *  Change the book information.
      *
-     *  @param string $id the id nummer´ user.
+     *  @param string $id the id nummer´ book.
      *
-     * @return change the users information of the database.
+     * @return change the books information of the database.
      */
-    public function updateBook ($id) {
+    public function updateBook($id)
+    {
         $sql_update = " UPDATE book SET
         title = \"" . $this->_title. "\",
         author = \"" . $this->_author. "\",
@@ -144,6 +154,5 @@ class Book
         } else {
             echo "Erro" . $db_sql_update . '<br>' . mysqli_error($this->_connection);
         }
-
-}
+    }
 }

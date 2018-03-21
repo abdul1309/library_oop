@@ -13,13 +13,21 @@ if (isset($_POST['send_form_register']) && !empty($_POST['username']) && !empty(
     // make object from class user and give the $db as parameter
     $user = new User($db);
     $username = $_POST['username'];
-    $email = $_POST['username'];
-    $sql = "SELECT * FROM user WHERE username='$username' or email = '$email'";
-    $rows = $user->show($sql);
-    if (!empty($rows)) {
+    $email = $_POST['email'];
+    $rows_user = $user->show('user', 'username', '$username');
+    $row_email = $user->show('user', 'email', $email);
+
+    if (!empty($rows_user || !empty($row_email))) {
         print "Benutzername oder email wurde schon verwendet";
     } else {
-        $set = $user->set($_POST['username'], md5($_POST['password']), $_POST['email'], $_POST['firstname'], $_POST['lastname'], $_POST['address'], $_POST['date_of_birth'], 3);
+        $user->setUsername($_POST['username']);
+        $user->setPassword(md5($_POST['password']));
+        $user->setEmail($_POST['email']);
+        $user->setFirstname($_POST['firstname']);
+        $user->setLastname($_POST['lastname']);
+        $user->setAddress($_POST['address']);
+        $user->setDateOfBirth($_POST['date_of_birth']);
+        $user->setIdRole(3);
         $user->registerUser();
     }
 } elseif (isset($_POST['send_form_register'])) {

@@ -47,7 +47,14 @@ $book = new Book($db);
                 }
             }
             if (isset($_POST['send'])) {
-                $set= $user->set($_POST['username'], ($_POST['password']),  $_POST['email'], $_POST['firstname'], $_POST['lastname'], $_POST['address'], $_POST['date_of_birth'], 2);
+                $user->setUsername($_POST['username']);
+                $user->setPassword($_POST['password']);
+                $user->setEmail($_POST['email']);
+                $user->setFirstname($_POST['firstname']);
+                $user->setLastname($_POST['lastname']);
+                $user->setAddress($_POST['address']);
+                $user->setDateOfBirth($_POST['date_of_birth']);
+                $user->setIdRole($_POST['roles']);
                 $user->updateUser($_SESSION['id']);
             }
             if (isset($_POST['show_book'])) {

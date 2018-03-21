@@ -20,15 +20,17 @@ class SelectFormElement extends FormElement
     {
         $options = null;
         $get_element_select = '<select name="' . $this->name . '" >';
-        $option[]= '<option value= 0>'.'choose value' . '</option>';
         foreach ($this->value as $this->value) {
             foreach ($this->value as $value => $row) {
                 if (!empty($_POST[$this->name])) {
                     $select = ' selected="selected"';
-
                 } else {
                     $select = '';
                 }
+                if ($this->value!= $this->value) {
+
+                }
+
                 $option[] = '<option value="' . $value . '"' . $select . '>' . $row . '</option>';
                 $options = implode(PHP_EOL, $option);
             }
