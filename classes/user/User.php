@@ -250,22 +250,24 @@ class User
     /**
      * Show from the database.
      *
-     * @param string $name_table the name of the table
-     * @param string $name       the name of the column.
-     * @param mixed  $value      the value of the column.
+     * @param string $name  the name of the column.
+     * @param mixed  $value the value of the column.
      *
      * @return array|null
      */
-    public function show($name_table, $name, $value)
+    public function show($name, $value)
     {
-        if (!empty($name) && !empty($value)) {
-            $sql = "SELECT * FROM $name_table  WHERE  $name= '$value'";
-
-        } else {
-            $sql = "SELECT * FROM .$name_table";
-        }
         $rows = null;
-        $result_sql = mysqli_query($this->_connection, $sql);
+        if (!empty($name) && !empty($value)) {
+            $sql_user_category = "SELECT * FROM `user` AS U LEFT JOIN `user_roles` AS R ON U.id_role = R.id_role WHERE $name = '$value'";
+            $result_sql = mysqli_query($this->_connection, $sql_user_category);
+        } elseif ($name == 'user_roles') {
+            $user_roles = "SELECT * FROM `user_roles`";
+            $result_sql = mysqli_query($this->_connection, $user_roles);
+        } else {
+            $sql_user_category = "SELECT * FROM `user` AS U LEFT JOIN `user_roles` AS R ON U.id_role = R.id_role";
+            $result_sql = mysqli_query($this->_connection, $sql_user_category);
+        }
         if (!$result_sql) {
             print "Error: " . $result_sql . "<br>" . mysqli_error($this->_connection);
         } else {
@@ -275,6 +277,7 @@ class User
             return $rows;
         }
     }
+
     /**
      * Change the users information.
      *

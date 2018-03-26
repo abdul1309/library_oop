@@ -12,6 +12,7 @@ class Book
     private $_author;
     private $_category;
     private $_connection;
+
     /**
      * Book constructor.
      *
@@ -23,6 +24,7 @@ class Book
     {
         return $this->_connection = $db->getConnection();
     }
+
     /**
      * Set the values from the Form to the title.
      *
@@ -34,6 +36,7 @@ class Book
     {
         $this->_title = $value;
     }
+
     /**
      * Get the title´s value.
      *
@@ -43,6 +46,7 @@ class Book
     {
         return $this->_title;
     }
+
     /**
      * Set the values from the Form to the author.
      *
@@ -103,25 +107,28 @@ class Book
             print "erfolg";
         }
     }
+
     /**
      * Show from the database.
      *
-     * @param string $name_table the name of the table
-     * @param string $name       the name of the column.
-     * @param mixed  $value      the value of the column.
+     * @param string $name  the name of the column.
+     * @param mixed  $value the value of the column.
      *
      * @return array|null
      */
-    public function show($name_table, $name, $value)
+    public function show($name, $value)
     {
-        if (!empty($name) && !empty($value)) {
-            $sql = "SELECT * FROM $name_table  WHERE $name = $value";
-
-        } else {
-            $sql = "SELECT * FROM .$name_table";
-        }
         $rows = null;
-        $result_sql = mysqli_query($this->_connection, $sql);
+        if (!empty($name) && !empty($value)) {
+            $sql_book_or_category = "SELECT * FROM `book` AS B LEFT JOIN `category` AS C ON B.category_id = C.id WHERE $name = '$value'";
+            $result_sql = mysqli_query($this->_connection, $sql_book_or_category);
+        } elseif ($name == 'category') {
+            $category = "SELECT * FROM `category`";
+            $result_sql = mysqli_query($this->_connection, $category);
+        } else {
+            $sql_book_or_category = "SELECT *  FROM `book` AS B LEFT JOIN  `category` AS C ON B.category_id = C.id";
+            $result_sql = mysqli_query($this->_connection, $sql_book_or_category);
+        }
         if (!$result_sql) {
             print "Error: " . $result_sql . "<br>" . mysqli_error($this->_connection);
         } else {
@@ -131,6 +138,7 @@ class Book
             return $rows;
         }
     }
+
 
     /**
      *  Change the book information.

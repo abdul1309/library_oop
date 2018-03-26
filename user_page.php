@@ -16,11 +16,12 @@ $book = new Book($db);
     <body>
         <form action="user_page.php" method="post">
             <?php
+            $id = $_SESSION['id'];
+            $id_role = $_SESSION['role'];
             print '<p>'.$edit_profil->render();
             print '<p>'.$show_book->render().'</p>';
             if (isset($_POST['edit_profil'])) {
-                $id = $_SESSION['id'];
-                $rows = $user->show('user', 'id', $id);
+                $rows = $user->show('id', $id);
                 print '<div class="register_box">';
                 foreach ((array) $rows as $item) {
                     foreach ($item as $row => $value) {
@@ -37,7 +38,6 @@ $book = new Book($db);
                         print $address->render();
                         $date_of_birth->setValue($item['date_of_birth']);
                         print $date_of_birth->render();
-                        $select->setValue($item['id_role']);
                         echo '<br>';
                         print $send->render();
                         print $cancel->render();
@@ -54,29 +54,24 @@ $book = new Book($db);
                 $user->setLastname($_POST['lastname']);
                 $user->setAddress($_POST['address']);
                 $user->setDateOfBirth($_POST['date_of_birth']);
-                $user->setIdRole($_POST['roles']);
+                $user->SetIdRole($id_role);
                 $user->updateUser($_SESSION['id']);
             }
             if (isset($_POST['show_book'])) {
                 print '<table class="table">';
-                print "<tr><td>Title</td><td>Autor</td><td>Kategorie</td>";
-                $rows = $book->show('book', null, null);
-                foreach ((array)$rows as $item) {
-                    echo "<tr>";
-                    foreach ($item as $row => $value) {
-                        $category_id = $item ['category_id'];
-                        $lend->setValue($item ['iban']);
-                        $rows = $book->show('category', 'id', $category_id);
-                        foreach ($rows as $items) {
-                            foreach ($items as $row => $values) {
-                                echo "<td>" . $item['title'] . "</td>";
-                                echo "<td>" . $item['author'] . "</td>";
-                                echo "<td>" . $items['name'] . "</td>";
-                                print "<td>" . $lend->render() . "<td>";
-                                break;
-                            }
+                print "<td>Title</td><td>Autor</td><td>Kategorie</td>";
+                $rows_book = $book->show(null, null);
+                foreach ($rows_book as $item_book) {
+                    foreach ($item_book as $row => $value) {
+                        $category_id = $item_book ['category_id'];
+                        $lend->setValue($item_book ['iban']);
+                        if ($category_id == $item_book['id'] ) {
+                            echo "<tr><td>" . $item_book['title'] . "</td>";
+                            echo "<td>" . $item_book['author'] . "</td>";
+                            echo "<td>" . $item_book['name'] . "</td>";
+                            print "<td>" . $lend->render() . "<td></tr>";
+                            break;
                         }
-                        break;
                     }
                 }
                 echo '</table>';

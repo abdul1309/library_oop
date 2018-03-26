@@ -30,12 +30,10 @@ class SelectFormElement extends FormElement
                 if ($this->value!= $this->value) {
 
                 }
-
                 $option[] = '<option value="' . $value . '"' . $select . '>' . $row . '</option>';
                 $options = implode(PHP_EOL, $option);
             }
         }
-
         return $this->renderLabel(). $get_element_select . $options . '</select>';
     }
 
