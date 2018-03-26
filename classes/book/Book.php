@@ -11,6 +11,7 @@ class Book
     private $_title;
     private $_author;
     private $_category;
+    private $_iban;
     private $_connection;
 
     /**
@@ -90,7 +91,26 @@ class Book
     {
         return $this->_category;
     }
-
+    /**
+     * Set the values from the Form to the iban.
+     *
+     * @param @param string $value the iban.
+     *
+     * @return set the value.
+     */
+    public function setIban($value)
+    {
+        $this->_iban = $value;
+    }
+    /**
+     * Get the iban´s value.
+     *
+     * @return the iban´s value.
+     */
+    public function getIban()
+    {
+        return $this->_iban;
+    }
     /**
      * Add anew Book.
      *
@@ -98,8 +118,8 @@ class Book
      */
     public function addBook()
     {
-        $sql = "INSERT INTO book (title, author, category_id)
-              VALUES ('$this->_title', '$this->_author', '$this->_category')";
+        $sql = "INSERT INTO book (title, author, id_category, iban)
+              VALUES (\"" . $this->getTitle()."\",\"" . $this->getAuthor()."\",\"" . $this->getCategory()."\",\"" . $this->getIban()."\")";
         $result = mysqli_query($this->_connection, $sql);
         if (!$result) {
             print "Error: " . $result . "<br>" . mysqli_error($this->_connection);
@@ -120,13 +140,13 @@ class Book
     {
         $rows = null;
         if (!empty($name) && !empty($value)) {
-            $sql_book_or_category = "SELECT * FROM `book` AS B LEFT JOIN `category` AS C ON B.category_id = C.id WHERE $name = '$value'";
+            $sql_book_or_category = "SELECT * FROM `book` AS B LEFT JOIN `category` AS C ON B.id_category = C.id_category WHERE $name = '$value'";
             $result_sql = mysqli_query($this->_connection, $sql_book_or_category);
         } elseif ($name == 'category') {
             $category = "SELECT * FROM `category`";
             $result_sql = mysqli_query($this->_connection, $category);
         } else {
-            $sql_book_or_category = "SELECT *  FROM `book` AS B LEFT JOIN  `category` AS C ON B.category_id = C.id";
+            $sql_book_or_category = "SELECT *  FROM `book` AS B LEFT JOIN  `category` AS C ON B.id_category = C.id_category";
             $result_sql = mysqli_query($this->_connection, $sql_book_or_category);
         }
         if (!$result_sql) {
@@ -138,8 +158,6 @@ class Book
             return $rows;
         }
     }
-
-
     /**
      *  Change the book information.
      *
@@ -150,10 +168,11 @@ class Book
     public function updateBook($id)
     {
         $sql_update = " UPDATE book SET
-        title = \"" . $this->_title. "\",
-        author = \"" . $this->_author. "\",
-        category_id = \"" . $this->_category . "\"
-        WHERE iban = '$id'";
+        title = \"" . $this->getTitle(). "\",
+        author = \"" . $this->getAuthor(). "\",
+        id_category = \"" . $this->getCategory() . "\",
+         iban = \"" . $this->getIban(). "\"
+        WHERE id = '$id'";
         $db_sql_update = mysqli_query($this->_connection, $sql_update);
         if ($db_sql_update) {
             print "Die Information werden geändert";

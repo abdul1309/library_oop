@@ -10,44 +10,40 @@ include 'classes/formElement/SelectFormElement.php';
  * The objects can call anywhere.
  */
 $session = new Session();
-$show_user = new InputFormElement('Benutzer anzeigen', 'show_user', 'submit', true);
-$edit_profil = new InputFormElement('ändern mein Profile', 'edit_profil', 'submit', true);
-$add_book = new InputFormElement('Bücher hinzufügen', 'add_book', 'submit', true);
-$show_book = new InputFormElement('Bücher anzeigen', 'show_book', 'submit', true);
-
+$showUserForm = new InputFormElement('Benutzer anzeigen', 'show_user', 'submit', true);
+$editProfilForm = new InputFormElement('ändern mein Profile', 'edit_profil', 'submit', true);
+$addBookForm = new InputFormElement('Bücher hinzufügen', 'add_book', 'submit', true);
+$showBookForm = new InputFormElement('Bücher anzeigen', 'show_book', 'submit', true);
 //book
-$title = new InputFormElement('Title', 'title', 'text', true);
-$author = new InputFormElement('Autor', 'author', 'text', true);
-$select_category = new SelectFormElement('Kategorie', 'category', true);
-$book_into_database = new InputFormElement('send', 'book_into_database', 'submit', true);
-$edit_book = new ButtonFormElement('bearbeiten', 'edit_book', 'submit', true);
-$send_form_book_edit = new ButtonFormElement('send', 'send_edit_book', 'submit', true);
-
-$lend = new ButtonFormElement('Ausleihen', 'lend', 'submit', true);
-
-
-
-global $username;
-$username = new InputFormElement('Benutzername', 'username', 'text', true);
-$password = new InputFormElement('Passwort', 'password', 'password', true);
-$password_confirm = new InputFormElement('Passwort beschtätigen', 'password_confirm', 'password', true);
-$firstname = new InputFormElement('Vorname', 'firstname', 'text', true);
-$lastname = new InputFormElement('Nachname', 'lastname', 'text', true);
-$address = new InputFormElement('Adresse', 'address', 'text', true);
-$email = new InputFormElement('Email', 'email', 'email', true);
-$date_of_birth = new InputFormElement('Geburtsdatum', 'date_of_birth', 'date', true);
-$select = new SelectFormElement('Rollen', 'roles', true);
+$titleBookForm = new InputFormElement('Title', 'title', 'text', true);
+$authorForm = new InputFormElement('Autor', 'author', 'text', true);
+$ibanForm = new InputFormElement('IBAN', 'iban', 'text', true);
+$selectCategoryForm = new SelectFormElement('Kategorie', 'category', true);
+$bookIntoDatabaseForm = new InputFormElement('send', 'book_into_database', 'submit', true);
+$editBookForm = new ButtonFormElement('bearbeiten', 'edit_book', 'submit', true);
+$sendFormBookEdit = new ButtonFormElement('send', 'send_edit_book', 'submit', true);
+$lendBookForm = new ButtonFormElement('Ausleihen', 'lend_book_form', 'submit', true);
+global $usernameForm;
+$usernameForm= new InputFormElement('Benutzername', 'username', 'text', true);
+$passwordForm = new InputFormElement('Passwort', 'password', 'password', true);
+$passwordConfirmForm = new InputFormElement('Passwort beschtätigen', 'password_confirm', 'password', true);
+$firstnameForm = new InputFormElement('Vorname', 'firstname', 'text', true);
+$lastnameForm = new InputFormElement('Nachname', 'lastname', 'text', true);
+$adressForm = new InputFormElement('Adresse', 'address', 'text', true);
+$emailForm = new InputFormElement('Email', 'email', 'email', true);
+$dateOfBirthForm = new InputFormElement('Geburtsdatum', 'date_of_birth', 'date', true);
+$selectRolesForm = new SelectFormElement('Rollen', 'roles', true);
 //header
-$login = new InputFormElement('Anmelden', 'login', 'submit', true);
-$logout = new InputFormElement('Abmelden', 'logout', 'submit', true);
-$send_login = new InputFormElement('login', 'login', 'submit', true);
+$loginForm = new InputFormElement('Anmelden', 'login', 'submit', true);
+$logoutForm = new InputFormElement('Abmelden', 'logout', 'submit', true);
+$sendLoginForm= new InputFormElement('login', 'login', 'submit', true);
 //
-$send = new ButtonFormElement('send', 'send', 'submit', true);
-$cancel = new InputFormElement('abbrechen', 'cancel', 'submit', true);
-$edit = new ButtonFormElement('bearbeiten', 'edit', 'submit', true);
-$delete = new InputFormElement('löschen', 'delete', 'submit', true);
+$sendForm = new ButtonFormElement('send', 'send', 'submit', true);
+$cancelForm = new InputFormElement('abbrechen', 'cancel', 'submit', true);
+$editForm = new ButtonFormElement('bearbeiten', 'edit', 'submit', true);
+$deleteForm = new InputFormElement('löschen', 'delete', 'submit', true);
 //register
-$send_register = new InputFormElement('send', 'send_form_register', 'submit', true);
+$sendRegisterForm = new InputFormElement('send', 'send_form_register', 'submit', true);
 
 
 

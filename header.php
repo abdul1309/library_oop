@@ -22,7 +22,7 @@ if (isset($_POST['logout'])) {
             <div style="float: right">
                 <?php
                 if (!$session->exists('loggedin')) {
-                    print $login->render();
+                    print $loginForm->render();
                     print '</form>';
                 } else {
                     print '<div style="float: right">';
@@ -30,7 +30,7 @@ if (isset($_POST['logout'])) {
                         $param = array(
                             'user' => $session->get('user')
                         );
-                        print $logout->render();
+                        print $logoutForm->render();
                     }
                     print '</form>';
                 }

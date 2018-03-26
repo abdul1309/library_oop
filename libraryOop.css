@@ -47,7 +47,6 @@ input[type=text],input[type = date], input[type = email],input[type = password ]
 }
 .register_box {
      width:350px ;
-     height:690px ;
      color: #e38d13;
      background: #ffffff;
      top: 20% ;
@@ -59,7 +58,6 @@ input[type=text],input[type = date], input[type = email],input[type = password ]
 
 .book_box {
     width:350px ;
-    height:310px ;
     color: #e38d13;
     background: #ffffff;
     top: 20% ;
@@ -68,8 +66,6 @@ input[type=text],input[type = date], input[type = email],input[type = password ]
     box-sizing: border-box;
     padding: 30px 50px;
 }
-
-
 
 .image {
     width:40% ;

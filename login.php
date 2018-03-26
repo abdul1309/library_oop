@@ -10,7 +10,9 @@ if (!empty($_POST['username'])&& !empty($_POST['password'])) {
     // make object from class user and give the $db as parameter
     $user = new User($db);
     // get user with the Method login_user from class user.
-    $row = $user->loginUser($_POST['username'], md5($_POST['password']));
+    $user->setUsername($_POST['username']);
+    $user->setPassword(md5($_POST['password']));
+    $row = $user->loginUser();
     // if the id user from the database not null.
     if (isset($row['id']) && $row['id_role'] == 1 || $row['id_role'] == 2 ) {
         /*
@@ -29,7 +31,6 @@ if (!empty($_POST['username'])&& !empty($_POST['password'])) {
         }
     } else {
         print 'Ihr Konto wird noch nicht existiert oder Sie haben noch kein Konto oder ihr Passwort ist falsch';
-
     }
 } else {
     if (isset($_POST['login_form'])) {
@@ -50,9 +51,9 @@ require_once 'header.php';
                 <img src="login.png" class="image"/>
                 <h1>Login here</h1>
                 <?php
-                print $username->render();
-                print $password->render();
-                print '<p>'. $send_login->render().'</p>';
+                print $usernameForm->render();
+                print $passwordForm->render();
+                print '<p>'. $sendLoginForm->render().'</p>';
                 print '<a href="register.php" >Haben Sie noch kein Konto?'.'</a>';
                 ?>
             </div>

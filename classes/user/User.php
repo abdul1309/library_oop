@@ -18,7 +18,6 @@ class User
     private $_id_role;
     private $_connection;
     public $role_login;
-
     /**
      * Set the values from the Form to the username.
      *
@@ -213,14 +212,11 @@ class User
     /**
      * Get user from the database.
      *
-     * @param string $username the name of user who want login.
-     * @param string $password the password of user.
-     *
      * @return array
      */
-    public function loginUser($username, $password)
+    public function loginUser()
     {
-        $sql = "SELECT * FROM user WHERE username='$username' AND password='$password'";
+        $sql = "SELECT * FROM user WHERE username=\"" . $this->getUsername()."\" AND password=\"" . $this->getPassword()."\"";
         $result = mysqli_query($this->_connection, $sql);
         if (!$result) {
             print "Error: " . $result . "<br>" . mysqli_error($this->_connection);
@@ -238,7 +234,7 @@ class User
     public function registerUser()
     {
         $sql = "INSERT INTO user (username, password, email, firstname, lastname, address, date_of_birth, id_role)
-              VALUES ('$this->_username', '$this->_password', '$this->_email', '$this->_firstname', '$this->_lastname', '$this->_address', '$this->_date_of_birth', '$this->_id_role')";
+              VALUES (\"" . $this->getUsername()."\", \"" . $this->getPassword()."\", \"" . $this->getEmail()."\",\"" . $this->getFirstname()."\", \"" . $this->getLastname()."\",  \"" . $this->getAddress()."\",  \"" . $this->getDateOfBirth()."\",  \"" . $this->getIdRole()."\")";
         $result = mysqli_query($this->_connection, $sql);
         if (!$result) {
             print "Error: " . $result . "<br>" . mysqli_error($this->_connection);
@@ -277,7 +273,6 @@ class User
             return $rows;
         }
     }
-
     /**
      * Change the users information.
      *
@@ -288,14 +283,14 @@ class User
     function updateUser($id)
     {
         $sql_update = " UPDATE user SET
-        username = \"" .$this->_username. "\",
-        password = \"" . md5($this->_password) . "\",
-        email = \"" . $this->_email. "\",
-        firstname = \"" . $this->_firstname . "\",
-        lastname = \"" . $this->_lastname . "\",
-        address = \"" . $this->_address . "\",
-        date_of_birth = \"" . $this->_date_of_birth . "\",
-        id_role = \"" . $this->_id_role . "\"
+        username = \"" .$this->getUsername(). "\",
+        password = \"" . md5($this->getPassword()) . "\",
+        email = \"" . $this->getEmail(). "\",
+        firstname = \"" . $this->getFirstname() . "\",
+        lastname = \"" . $this->getLastname() . "\",
+        address = \"" . $this->getAddress() . "\",
+        date_of_birth = \"" . $this->getDateOfBirth() . "\",
+        id_role = \"" . $this->getIdRole() . "\"
         WHERE id = '$id'";
             $db_sql_update = mysqli_query($this->_connection, $sql_update);
         if ($db_sql_update) {

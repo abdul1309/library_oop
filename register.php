@@ -14,8 +14,8 @@ if (isset($_POST['send_form_register']) && !empty($_POST['username']) && !empty(
     $user = new User($db);
     $username = $_POST['username'];
     $email = $_POST['email'];
-    $rows_user = $user->show('user', 'username', $username);
-    $row_email = $user->show('user', 'email', $email);
+    $rows_user = $user->show('username', $username);
+    $row_email = $user->show('email', $email);
     if (!empty($rows_user || !empty($row_email))) {
         print "Benutzername oder email wurde schon verwendet";
     } else {
@@ -44,17 +44,16 @@ if (isset($_POST['send_form_register']) && !empty($_POST['username']) && !empty(
             <div class="register_box">
             <h1>register here</h1>
             <?php
-            $username = new InputFormElement('Benutzername', 'username', 'text', true);
-            print '<p>'.$username->render();
-            print '<p>'.$password->render();
-            print '<p>'.$password_confirm->render();
-            print $firstname->render();
-            print $lastname->render();
-            $email = new InputFormElement('Email', 'email', 'email', true);
-            print $email->render();
-            print $address->render();
-            print $date_of_birth->render();
-            print '<p>'. $send_register->render().'</p>';
+            print '<p>'.$usernameForm->render();
+            print '<p>'.$passwordForm->render();
+            print '<p>'.$passwordConfirmForm->render();
+            print $firstnameForm->render();
+            print $lastnameForm->render();
+            $emailForm = new InputFormElement('Email', 'email', 'email', true);
+            print $emailForm->render();
+            print $adressForm->render();
+            print $dateOfBirthForm->render();
+            print '<p>'. $sendRegisterForm->render().'</p>';
             print '<a href="login.php" >zurück'.'</a>';
             ?>
             </div>
