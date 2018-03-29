@@ -11,7 +11,7 @@ include 'classes/formElement/SelectFormElement.php';
  */
 $session = new Session();
 $showUserForm = new InputFormElement('Benutzer anzeigen', 'show_user', 'submit', true);
-$editProfilForm = new InputFormElement('ändern mein Profile', 'edit_profil', 'submit', true);
+$editProfilForm = new InputFormElement('Ändern mein Profile', 'edit_profil', 'submit', true);
 $addBookForm = new InputFormElement('Bücher hinzufügen', 'add_book', 'submit', true);
 $showBookForm = new InputFormElement('Bücher anzeigen', 'show_book', 'submit', true);
 //book
@@ -27,7 +27,7 @@ $bookIntoDatabaseForm = new InputFormElement('send', 'book_into_database', 'subm
 $editBookForm = new ButtonFormElement('bearbeiten', 'edit_book', 'submit', true);
 $sendFormBookEdit = new ButtonFormElement('send', 'send_edit_book', 'submit', true);
 $lendBookForm = new ButtonFormElement('Ausleihen', 'lend_book_form', 'submit', true);
-$BookFormToDatabase = new InputFormElement('meinen Bücher', 'my_books', 'submit', true);
+$BookFormToDatabase = new InputFormElement('Meine Bücher', 'my_books', 'submit', true);
 global $usernameForm;
 $usernameForm= new InputFormElement('Benutzername', 'username', 'text', true);
 $passwordForm = new InputFormElement('Passwort', 'password', 'password', true);

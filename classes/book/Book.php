@@ -63,7 +63,7 @@ class Book
      *
      * @return the Id´s value.
      */
-    public function getID()
+    public function getId()
     {
         return $this->_id;
     }
@@ -232,7 +232,7 @@ class Book
     {
         $id_user = $_SESSION['id'];
         $sql = "INSERT INTO lend (id_book, id_user)
-              VALUES (".$this->getID().", $id_user)";
+              VALUES (".$this->getId().", $id_user)";
         $result = mysqli_query($this->_connection, $sql);
         if (!$result) {
             print "Error: " . $result . "<br>" . mysqli_error($this->_connection);
@@ -247,10 +247,10 @@ class Book
      */
     public function deleteLend()
     {
-        $sql_lend_delete = "delete FROM `lend` WHERE id_book =  ".$this->getID()." And id_user = ".$_SESSION['id'].".";
+        $sql_lend_delete = "delete FROM `lend` WHERE id_book =  ".$this->getId()." And id_user = ".$_SESSION['id'].".";
         $result_sql = mysqli_query($this->_connection, $sql_lend_delete);
-        if (!$sql_lend_delete) {
-            print "Error: " . $sql_lend_delete . "<br>" . mysqli_error($this->_connection);
+        if (!$result_sql) {
+            print "Error: " . $result_sql . "<br>" . mysqli_error($this->_connection);
         } else {
             print "Das Buch wird zurück gegeben";
         }
