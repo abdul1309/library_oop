@@ -20,6 +20,7 @@ $book = new Book($db);
             $id_role = $_SESSION['role'];
             print '<p>'.$editProfilForm->render();
             print '<p>'.$showBookForm->render().'</p>';
+            print '<p>'.$BookFormToDatabase->render().'</p>';
             if (isset($_POST['edit_profil'])) {
                 $rows = $user->show('id', $id);
                 print '<div class="register_box">';
@@ -63,15 +64,72 @@ $book = new Book($db);
                 $rows_book = $book->show(null, null);
                 foreach ($rows_book as $item_book) {
                     foreach ($item_book as $row => $value) {
-                        echo "<tr><td>" . $item_book['title'] . "</td>";
-                        echo "<td>" . $item_book['author'] . "</td>";
-                        $lendBookForm->setValue($item_book['id']);
-                        echo "<td>" . $item_book['name'] . "</td>";
-                        print "<td>" . $lendBookForm->render() . "<td></tr>";
+                        if ($item_book['number']>0) {
+                            echo "<tr><td>" . $item_book['title'] . "</td>";
+                            echo "<td>" . $item_book['author'] . "</td>";
+                            $lendBookForm->setValue($item_book['id']);
+                            echo "<td>" . $item_book['name'] . "</td>";
+                            print "<td>" . $lendBookForm->render() . "</td></tr>";
+                            break;
+                        }
                         break;
                     }
                 }
                 echo '</table>';
+            }
+            if (isset($_POST['lend_book_form'])) {
+                $rows_book = $book->show('id', $_POST['lend_book_form']);
+                foreach ($rows_book as $item) {
+                    foreach ($item as $row => $value) {
+                        $book->setTitle($item['title']);
+                        $book->setAuthor($item['author']);
+                        $book->setCategory($item['id_category']);
+                        $book->setNumber($item['number'] - 1);
+                        $book->setIban($item['iban']);
+                        $book->setId($item['id']);
+                        $lendBookForm->setValue($item['id']);
+                        break;
+                    }
+                    break;
+                }
+                $book->updateBook($_POST['lend_book_form']);
+                $book->lend();
+            }
+            if (isset($_POST['my_books'])) {
+                $rows_book = $book->show('lend', null);
+                if (!empty($rows_book)) {
+                    print '<table class="table">';
+                    print "<td>Title</td><td>Autor</td>";
+                    foreach ($rows_book as $item_book) {
+                        foreach ($item_book as $row => $value) {
+                            echo "<tr><td>" . $item_book['title'] . "</td>";
+                            echo "<td>" . $item_book['author'] . "</td>";
+                            $BookFormBookToD->setValue($item_book['id']);
+                            print "<td>" . $BookFormBookToD->render() . "<td></tr>";
+                            break;
+                        }
+                    }
+                    echo '</table>';
+                } else {
+                    echo 'Sie haben keine Bücher';
+                }
+            }
+            if (isset($_POST['BookFormBookToD'])) {
+                $rows_book = $book->show('id', $_POST['BookFormBookToD']);
+                foreach ($rows_book as $item) {
+                    foreach ($item as $row => $value) {
+                        $book->setTitle($item['title']);
+                        $book->setAuthor($item['author']);
+                        $book->setNumber($item['number'] + 1);
+                        $book->setIban($item['iban']);
+                        $book->setCategory($item['id_category']);
+                        $book->setId($item['id']);
+                        break;
+                    }
+                    break;
+                }
+                $book->updateBook($_POST['BookFormBookToD']);
+                $book->deleteLend();
             }
             ?>
         </form>

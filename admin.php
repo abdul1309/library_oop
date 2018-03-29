@@ -98,7 +98,8 @@ $book = new Book($db);
                 print $titleBookForm->render();
                 print $authorForm->render();
                 print $ibanForm->render();
-                $result = $book->show('category', null, null);
+                print $number->render();
+                $result = $book->show('category', null);
                 $arrays[] = [0 => 'Wählen Sie bitte den Wert aus'];
                 foreach ($result as $item) {
                     $arrays[] = [$item['id_category'] => $item['name']];
@@ -112,20 +113,44 @@ $book = new Book($db);
                 echo '</pre>';
             }
             if (isset($_POST['book_into_database'])) {
-                $book->setTitle($_POST['title']);
-                $book->setAuthor($_POST['author']);
-                $book->setIban($_POST['iban']);
-                $book->setCategory($_POST['category']);
-                $book->addBook();
+                $number_of_books = $book->show('iban', $_POST['iban']);
+                if (!empty($number_of_books)) {
+                    foreach ($number_of_books as $item) {
+                        foreach ($item as $row => $value) {
+                            $ibanFrData = substr($item['iban'], 3);
+                            $ibanFrForm = substr($_POST['iban'], 3);
+                            if ("\"" . $ibanFrData. "\" == \" . $ibanFrForm. \"" ) {
+                                $book->setTitle($_POST['title']);
+                                $book->setAuthor($_POST['author']);
+                                $book->setNumber($item['number'] + $_POST['number']);
+                                $idBookForm->setValue($item['id']);
+                                $book->setIban($_POST['iban']);
+                                $book->setCategory($_POST['category']);
+                                $book->updateBook($item['id']);
+                            }
+                            break;
+                        }
+                        break;
+                    }
+                } else {
+                    $book->setTitle($_POST['title']);
+                    $book->setAuthor($_POST['author']);
+                    $book->setNumber($_POST['number']);
+                    $book->setIban($_POST['iban']);
+                    $book->setCategory($_POST['category']);
+                    $book->addBook();
+                }
             }
             if (isset($_POST['show_book'])) {
                 print '<table class="table">';
-                print "<td>Title</td><td>Autor</td><td>Kategorie</td>";
+                print "<td>Title</td><td>Autor</td><td>Anzahl</td><td>IBAN</td><td>Kategorie</td>";
                 $rows_book = $book->show(null, null);
                 foreach ($rows_book as $item_book) {
                     foreach ($item_book as $row => $value) {
                         echo "<tr><td>" . $item_book['title'] . "</td>";
                         echo "<td>" . $item_book['author'] . "</td>";
+                        echo "<td>" . $item_book['number'] . "</td>";
+                        echo "<td>" . $item_book['iban'] . "</td>";
                         $editBookForm->setValue($item_book['id']);
                         echo "<td>" . $item_book['name'] . "</td>";
                         print "<td>" . $editBookForm->render() . "<td></tr>";
@@ -143,16 +168,20 @@ $book = new Book($db);
                         $book->setTitle($item_book['title']);
                         $book->setAuthor($item_book['author']);
                         $book->setIban($item_book['iban']);
+                        $book->setNumber($item_book['number']);
                         $arrays[] = [$item_book['id_category'] => $item_book['name']];
                         $title_value = $book->getTitle();
                         $author_value = $book->getAuthor();
                         $iban_value = $book->getIban();
+                        $number_value = $book->getNumber();
                         $titleBookForm->setValue($title_value);
                         $authorForm->setValue($author_value);
                         $ibanForm->setValue($iban_value);
+                        $number->setValue($number_value);
                         print $titleBookForm->render();
                         print $authorForm->render();
                         print $ibanForm->render();
+                        print $number->render();
                         $sql_category = $book->show('category', null);
                         foreach ($sql_category as $items) {
                             foreach ($items as $row => $value) {
@@ -177,6 +206,8 @@ $book = new Book($db);
                 $book->setTitle($_POST['title']);
                 $book->setAuthor($_POST['author']);
                 $book->setCategory($_POST['category']);
+                $book->setNumber($_POST['number']);
+                $book->setIban($_POST['iban']);
                 $book->updateBook($_POST['send_edit_book']);
             }print '</div>';
             ?>

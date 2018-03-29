@@ -8,12 +8,13 @@
  */
 class Book
 {
+    private $_id;
     private $_title;
     private $_author;
     private $_category;
     private $_iban;
+    private $_number;
     private $_connection;
-
     /**
      * Book constructor.
      *
@@ -25,7 +26,6 @@ class Book
     {
         return $this->_connection = $db->getConnection();
     }
-
     /**
      * Set the values from the Form to the title.
      *
@@ -47,7 +47,26 @@ class Book
     {
         return $this->_title;
     }
-
+    /**
+     * Set the values from the Form to the Id.
+     *
+     * @param string $value the value of Id.
+     *
+     * @return set the value.
+     */
+    public function setId($value)
+    {
+        $this->_id = $value;
+    }
+    /**
+     * Get the Id´s value.
+     *
+     * @return the Id´s value.
+     */
+    public function getID()
+    {
+        return $this->_id;
+    }
     /**
      * Set the values from the Form to the author.
      *
@@ -112,14 +131,35 @@ class Book
         return $this->_iban;
     }
     /**
+     * Set the values the number.
+     *
+     * @param @param string $value the number.
+     *
+     * @return set the value.
+     */
+    public function setNumber($value)
+    {
+        $this->_number = $value;
+    }
+    /**
+     * Get the number´s value.
+     *
+     * @return the number´s value.
+     */
+    public function getNumber()
+    {
+        return $this->_number;
+    }
+
+    /**
      * Add anew Book.
      *
      * @return insert the values to the Database.
      */
     public function addBook()
     {
-        $sql = "INSERT INTO book (title, author, id_category, iban)
-              VALUES (\"" . $this->getTitle()."\",\"" . $this->getAuthor()."\",\"" . $this->getCategory()."\",\"" . $this->getIban()."\")";
+        $sql = "INSERT INTO book (title, author, id_category, iban, number)
+              VALUES (\"" . $this->getTitle()."\",\"" . $this->getAuthor()."\",\"" . $this->getCategory()."\",\"" . $this->getIban()."\",\"" . $this->getNumber()."\" )";
         $result = mysqli_query($this->_connection, $sql);
         if (!$result) {
             print "Error: " . $result . "<br>" . mysqli_error($this->_connection);
@@ -127,7 +167,6 @@ class Book
             print "erfolg";
         }
     }
-
     /**
      * Show from the database.
      *
@@ -145,6 +184,9 @@ class Book
         } elseif ($name == 'category') {
             $category = "SELECT * FROM `category`";
             $result_sql = mysqli_query($this->_connection, $category);
+        } elseif ($name == 'lend') {
+            $sql_book_lend = "SELECT * FROM `book` AS B inner JOIN `lend` AS L ON B.id = L.id_book WHERE L.id_user = ".$_SESSION['id'].".";
+            $result_sql = mysqli_query($this->_connection, $sql_book_lend);
         } else {
             $sql_book_or_category = "SELECT *  FROM `book` AS B LEFT JOIN  `category` AS C ON B.id_category = C.id_category";
             $result_sql = mysqli_query($this->_connection, $sql_book_or_category);
@@ -171,6 +213,7 @@ class Book
         title = \"" . $this->getTitle(). "\",
         author = \"" . $this->getAuthor(). "\",
         id_category = \"" . $this->getCategory() . "\",
+        number = \"" . $this->getNumber() . "\",
          iban = \"" . $this->getIban(). "\"
         WHERE id = '$id'";
         $db_sql_update = mysqli_query($this->_connection, $sql_update);
@@ -180,4 +223,37 @@ class Book
             echo "Erro" . $db_sql_update . '<br>' . mysqli_error($this->_connection);
         }
     }
+    /**
+     * Lend Add anew lend.
+     *
+     * @return insert the values to the Database.
+     */
+    public function lend()
+    {
+        $id_user = $_SESSION['id'];
+        $sql = "INSERT INTO lend (id_book, id_user)
+              VALUES (".$this->getID().", $id_user)";
+        $result = mysqli_query($this->_connection, $sql);
+        if (!$result) {
+            print "Error: " . $result . "<br>" . mysqli_error($this->_connection);
+        } else {
+            print " das Buch wird ausgeliehen";
+        }
+    }
+    /**
+     * Delete a lend from the Database.
+     *
+     * @return delete the values from the lend table.
+     */
+    public function deleteLend()
+    {
+        $sql_lend_delete = "delete FROM `lend` WHERE id_book =  ".$this->getID()." And id_user = ".$_SESSION['id'].".";
+        $result_sql = mysqli_query($this->_connection, $sql_lend_delete);
+        if (!$sql_lend_delete) {
+            print "Error: " . $sql_lend_delete . "<br>" . mysqli_error($this->_connection);
+        } else {
+            print "Das Buch wird zurück gegeben";
+        }
+    }
+
 }

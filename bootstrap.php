@@ -18,11 +18,16 @@ $showBookForm = new InputFormElement('Bücher anzeigen', 'show_book', 'submit', 
 $titleBookForm = new InputFormElement('Title', 'title', 'text', true);
 $authorForm = new InputFormElement('Autor', 'author', 'text', true);
 $ibanForm = new InputFormElement('IBAN', 'iban', 'text', true);
+$number = new InputFormElement('Anzahl', 'number', 'text', true);
+$idBookForm = new ButtonFormElement('id Buch', 'id_book', 'submit', true);
+$BookFormBookToD = new ButtonFormElement('Zurück geben', 'BookFormBookToD', 'submit', true);
+
 $selectCategoryForm = new SelectFormElement('Kategorie', 'category', true);
 $bookIntoDatabaseForm = new InputFormElement('send', 'book_into_database', 'submit', true);
 $editBookForm = new ButtonFormElement('bearbeiten', 'edit_book', 'submit', true);
 $sendFormBookEdit = new ButtonFormElement('send', 'send_edit_book', 'submit', true);
 $lendBookForm = new ButtonFormElement('Ausleihen', 'lend_book_form', 'submit', true);
+$BookFormToDatabase = new InputFormElement('meinen Bücher', 'my_books', 'submit', true);
 global $usernameForm;
 $usernameForm= new InputFormElement('Benutzername', 'username', 'text', true);
 $passwordForm = new InputFormElement('Passwort', 'password', 'password', true);
