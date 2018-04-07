@@ -81,11 +81,6 @@ $book = new Book($db);
                 $rows_book = $book->show('id', $_POST['lend_book_form']);
                 foreach ($rows_book as $item) {
                     foreach ($item as $row => $value) {
-                        $book->setTitle($item['title']);
-                        $book->setAuthor($item['author']);
-                        $book->setCategory($item['id_category']);
-                        $book->setNumber($item['number'] - 1);
-                        $book->setIban($item['iban']);
                         $book->setId($item['id']);
                         $lendBookForm->setValue($item['id']);
                         break;

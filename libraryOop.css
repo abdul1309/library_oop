@@ -47,6 +47,7 @@ input[type=text],input[type = date], input[type = email],input[type = password ]
 }
 .register_box {
      width:350px ;
+     height:690px ;
      color: #e38d13;
      background: #ffffff;
      top: 20% ;
